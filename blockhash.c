@@ -7,11 +7,19 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <getopt.h>
 #include <string.h>
 #include <math.h>
 
+#ifdef _DLL
+
+#include "blockhash.h"
+
+#else
+
+#include <getopt.h>
 #include <wand/MagickWand.h>
+
+#endif
 
 // comparing functions for qsort
 
@@ -288,6 +296,33 @@ void blockhash(int bits, unsigned char *data, int width, int height, int **hash)
     free(blocks);
 }
 
+#ifdef _DLL
+
+char* blockhash_quick_string(int bits, unsigned char *data, int width, int height) 
+{
+	int* hash = NULL;
+	blockhash_quick(bits, data, width, height, &hash);
+	char* hex = bits_to_hexhash(hash, bits * bits);
+	free(hash);
+	return hex;
+}
+
+char* blockhash_string(int bits, unsigned char *data, int width, int height)
+{
+	int* hash = NULL;
+	blockhash(bits, data, width, height, &hash);
+	char* hex = bits_to_hexhash(hash, bits * bits);
+	free(hash);
+	return hex;
+}
+
+void release_hash_string(char* hash)
+{
+	free(hash);
+}
+
+#else
+
 int process_image(char * fn, int bits, int quick, int debug)
 {
     int i, j;
@@ -420,3 +455,5 @@ void main (int argc, char **argv) {
     
     exit(0);
 }
+
+#endif

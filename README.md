@@ -40,3 +40,19 @@ Copyright 2014 Commons Machinery http://commonsmachinery.se/
 Distributed under an MIT license, please see LICENSE in the top dir.
 
 Contact: dev@commonsmachinery.se
+
+
+Why to fork
+-----------
+
+Here is the features I needed in my pet project:
+
+- Dynamic library instead of executive file
+
+- Hash a raw RGBA values array, not file
+
+- As few dependencies as possible
+
+- Proper signature declarations for P/Invoke
+
+I've read the code and found it's pretty easy to achieve.
